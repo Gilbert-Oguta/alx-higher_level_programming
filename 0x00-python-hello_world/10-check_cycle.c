@@ -6,7 +6,7 @@
  */
 int check_cycle(listint_t *list)
 {
-	lidtint_t *slow = list;
+	listint_t *slow = list;
 	listint_t *fast = list;
 
 	if (!list)
