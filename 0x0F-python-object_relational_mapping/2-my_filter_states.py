@@ -8,23 +8,9 @@ if __name__ == '__main__':
     from sys import argv
     import MySQLdb as mysql
 
-    try:
-        db = mysql.connect(host='localhost', port=3306, user=argv[1],
-                           passwd=argv[2], db=argv[3])
-    except Exception:
-        print('Failed to connect to the database')
-        exit(0)
-
-
-    cursor = db.cursor()
-
-    cursor.execute("SELECT * FROM states WHERE name = BINARY '{:s}' \
-                    ORDER BY id ASC;".format(sys.argv[4]))
-
-    result_query = cursor.fetchall()
-
-    for row in result_query:
-        print(row)
-
-    cursor.close()
-    db.close()
+     db = MySQLdb.connect(user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
+    c = db.cursor()
+    c.execute("""SELECT * FROM states
+                WHERE name LIKE BINARY '{}'
+                ORDER BY states.id ASC""".format(sys.argv[4]).strip("'"))
+    [print(state) for state in c.fetchall()]
